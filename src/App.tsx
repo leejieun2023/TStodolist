@@ -32,7 +32,7 @@ const Stbackground = styled.div`
   background-image: url('https://img.freepik.com/premium-vector/ripped-blank-white-line-school-paper_97886-13847.jpg');
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center -80px;
+  background-position: center -70px;
   min-height: 100vh;
 `;
 const Sth1 = styled.h1`
@@ -43,6 +43,8 @@ const Sth1 = styled.h1`
   align-items: center;
   justify-content: center;
   font-size: 35px;
+  color: #fdcac9;
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 `;
 
 

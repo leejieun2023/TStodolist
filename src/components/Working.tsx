@@ -10,16 +10,20 @@ const Working: React.FC = () => {
     return (
         <Stcontainer>
             <Sth2>Working 🙋🏻‍♀️</Sth2>
-            {WorkingTodos.map(todo => (
-                <Stdiv key={todo.id}>
-                    <div>
-                        <p>제목 : {todo.title}</p>
-                        <p>내용 : {todo.content}</p>
-                        <button onClick={() => dispatch(removeTodo(todo.id))}>🗑</button>
-                        <button onClick={() => dispatch(toggleTodo(todo.id))}>✔</button>
-                    </div>
-                </Stdiv>
-            ))}
+            {WorkingTodos.length > 0 ? (
+                WorkingTodos.map(todo => (
+                    <Stdiv key={todo.id}>
+                        <div>
+                            <p>제목 : {todo.title}</p>
+                            <p>내용 : {todo.content}</p>
+                            <button onClick={() => dispatch(removeTodo(todo.id))}>🗑</button>
+                            <button onClick={() => dispatch(toggleTodo(todo.id))}>✔</button>
+                        </div>
+                    </Stdiv>
+                ))
+            ) : (
+                <Stp>오늘의 ToDoList를 생성해보세요!</Stp>
+            )}
         </Stcontainer>
     );
 };
@@ -32,6 +36,10 @@ const Stcontainer = styled.div`
 `;
 const Sth2 = styled.h2`
     font-size: 40px;
+`;
+const Stp = styled.p`
+    font-weight: bold;
+    text-decoration: underline
 `;
 const Stdiv = styled.div`
     width: 550px;
