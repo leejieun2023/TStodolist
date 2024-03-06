@@ -1,6 +1,7 @@
 import { addTodo } from "../redux/modules/todoSlice";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import styled from "styled-components";
 
 const Header: React.FC = () => {
     const [title, setTitle] = useState<string>("");
@@ -23,22 +24,42 @@ const Header: React.FC = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input 
+        <Stform onSubmit={handleSubmit}>
+            <Stinput 
             type="text" 
             value={title} 
             onChange={(event) => setTitle(event.target.value)}
-            placeholder="제목"
+            placeholder=" 제목"
             />
-            <input 
+            <Stinput 
             type="text"
             value={content}
             onChange={(event) => setContent(event.target.value)}
-            placeholder="내용"
+            placeholder=" 내용"
             />
-            <button type="submit">추가하기</button>
-        </form>
+            <Stbutton type="submit">추가하기</Stbutton>
+        </Stform>
     );
 };
+
+const Stform = styled.form`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+const Stinput = styled.input`
+    width: 200px;
+    height: 20px;
+    border-radius: 3px;
+    margin-left: 15px;
+    border: none;
+`;
+const Stbutton = styled.button`
+    width: 80px;
+    border-radius: 50px;
+    margin-left: 30px;
+    border: none;
+    cursor: pointer;
+`;
 
 export default Header;
