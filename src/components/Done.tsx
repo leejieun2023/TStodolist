@@ -1,19 +1,28 @@
-import { useDispatch } from "react-redux";
-import { Todo, toggleTodo, removeTodo } from "../redux/modules/todoSlice";
-import { useQuery } from "react-query";
-import { getTodos } from "../api/todos";
+import { Todo } from "../redux/modules/todoSlice";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { getTodos, deleteTodo, updateTodo } from "../api/todos";
 import styled from "styled-components";
 
 const Done: React.FC = () => {
-    const dispatch = useDispatch();
+    const queryClient = useQueryClient();
     const { data: todos, isLoading, error } = useQuery("todos", getTodos);
+    const deleteMutation = useMutation(deleteTodo, {
+        onSuccess: () => {
+            queryClient.invalidateQueries("todos");
+        },
+    });
+    const updateMutation = useMutation(updateTodo, {
+        onSuccess: () => {
+            queryClient.invalidateQueries("todos");
+        },
+    });
 
     if (isLoading) {
         return <div>Loading ...</div>;
     }
     if (error) {
         const err = error as Error;
-        return <div>{err.message}</div>
+        return <div>{err.message}</div>;
     }
     const DoneTodos = todos?.filter((todo: Todo) => todo.completed);
 
@@ -27,8 +36,14 @@ const Done: React.FC = () => {
                             <Sttitle>제목 : {todo.title}</Sttitle>
                             <Stcontent>{todo.content}</Stcontent>
                             <Stbuttondiv>
-                                <Stbutton onClick={() => dispatch(removeTodo(todo.id))}>🗑️</Stbutton>
-                                <Stbutton onClick={() => dispatch(toggleTodo(todo.id))}>❌️</Stbutton>
+                                <Stbutton onClick={() => deleteMutation.mutate(todo.id)}>🗑️</Stbutton>
+                                <Stbutton onClick={() => updateMutation.mutate({
+                                    id: todo.id, updatedTodo: {
+                                        title: todo.title,
+                                        content: todo.content,
+                                        completed: !todo.completed
+                                    }
+                                })}>❌️</Stbutton>
                             </Stbuttondiv>
                         </div>
                     </Stdiv>

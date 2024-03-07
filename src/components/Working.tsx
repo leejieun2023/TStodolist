@@ -1,12 +1,17 @@
-import { Todo, toggleTodo } from "../redux/modules/todoSlice";
+import { Todo } from "../redux/modules/todoSlice";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { getTodos, deleteTodo } from "../api/todos";
+import { getTodos, deleteTodo, updateTodo } from "../api/todos";
 import styled from "styled-components";
 
 const Working: React.FC = () => {
     const queryClient = useQueryClient();
     const { data: todos, isLoading, error } = useQuery("todos", getTodos);
     const deleteMutation = useMutation(deleteTodo, {
+        onSuccess: () => {
+            queryClient.invalidateQueries("todos");
+        },
+    });
+    const updateMutation = useMutation(updateTodo, {
         onSuccess: () => {
             queryClient.invalidateQueries("todos");
         },
@@ -31,8 +36,14 @@ const Working: React.FC = () => {
                             <Sttitle>제목 : {todo.title}</Sttitle>
                             <Stcontent>{todo.content}</Stcontent>
                             <Stbuttondiv>
-                            <Stbutton onClick={() => deleteMutation.mutate(todo.id)}>🗑️</Stbutton>
-                            <Stbutton onClick={() => toggleTodo(todo.id)}>✔️</Stbutton>
+                                <Stbutton onClick={() => deleteMutation.mutate(todo.id)}>🗑️</Stbutton>
+                                <Stbutton onClick={() => updateMutation.mutate({
+                                    id: todo.id, updatedTodo: {
+                                        title: todo.title,
+                                        content: todo.content,
+                                        completed: !todo.completed
+                                    }
+                                })}>✔️</Stbutton>
                             </Stbuttondiv>
                         </div>
                     </Stdiv>

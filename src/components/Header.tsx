@@ -33,17 +33,17 @@ const Header: React.FC = () => {
 
     return (
         <Stform onSubmit={handleSubmit}>
-            <Stinput 
-            type="text" 
-            value={title} 
-            onChange={(event) => setTitle(event.target.value)}
-            placeholder=" 제목"
+            <Stinput
+                type="text"
+                value={title}
+                onChange={(event) => setTitle(event.target.value)}
+                placeholder=" 제목"
             />
-            <Stinput 
-            type="text"
-            value={content}
-            onChange={(event) => setContent(event.target.value)}
-            placeholder=" 내용"
+            <Stinput
+                type="text"
+                value={content}
+                onChange={(event) => setContent(event.target.value)}
+                placeholder=" 내용"
             />
             <Stbutton type="submit">추가하기</Stbutton>
         </Stform>
