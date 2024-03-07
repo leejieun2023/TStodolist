@@ -1,17 +1,27 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Todo, toggleTodo, removeTodo } from "../redux/modules/todoSlice";
+import { useQuery } from "react-query";
+import { getTodos } from "../api/todos";
 import styled from "styled-components";
 
 const Done: React.FC = () => {
     const dispatch = useDispatch();
-    const todos = useSelector((state: { todos: Todo[] }) => state.todos);
-    const DoneTodos = todos.filter(todo => todo.completed);
+    const { data: todos, isLoading, error } = useQuery("todos", getTodos);
+
+    if (isLoading) {
+        return <div>Loading ...</div>;
+    }
+    if (error) {
+        const err = error as Error;
+        return <div>{err.message}</div>
+    }
+    const DoneTodos = todos?.filter((todo: Todo) => todo.completed);
 
     return (
         <Stcontainer>
             <Sth2>Done 🙆🏻‍♀️</Sth2>
             {DoneTodos.length > 0 ? (
-                DoneTodos.map(todo => (
+                DoneTodos.map((todo: Todo) => (
                     <Stdiv key={todo.id}>
                         <div>
                             <Sttitle>제목 : {todo.title}</Sttitle>

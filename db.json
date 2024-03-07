@@ -1,0 +1,16 @@
+{
+  "todos": [
+    {
+      "id": 1,
+      "title": "스타벅스 바닐라 라떼 먹기",
+      "content": "정말 맛있는 라떼 ... 하지만 .. 당류가 !!",
+      "completed": true
+    },
+    {
+      "id": 2,
+      "title": "방 청소 하기",
+      "content": "이젠 정말 쓰레기를 버려야 해",
+      "completed": false
+    }
+  ]
+}

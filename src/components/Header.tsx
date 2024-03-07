@@ -1,12 +1,20 @@
-import { addTodo } from "../redux/modules/todoSlice";
+import { useMutation, useQueryClient } from "react-query";
+import { addTodo } from "../api/todos";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
 const Header: React.FC = () => {
     const [title, setTitle] = useState<string>("");
     const [content, setContent] = useState<string>("");
-    const dispatch = useDispatch();
+    const queryClient = useQueryClient();
+
+    const addMutation = useMutation(addTodo, {
+        onSuccess: (data) => {
+            const newTodoId = data.id;
+            console.log("New todo ID:", newTodoId);
+            queryClient.invalidateQueries("todos");
+        },
+    });
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
@@ -16,8 +24,8 @@ const Header: React.FC = () => {
             return;
         }
         // 새로운 투두 항목의 id는 현재 시간값을 사용
-        const newTodo = { id: Date.now(), title, content, completed: false };
-        dispatch(addTodo(newTodo));
+        const newTodo = { title, content, completed: false };
+        addMutation.mutate(newTodo);
         // 추가된 후에는 입력 필드 초기화
         setTitle("");
         setContent("");

@@ -1,24 +1,38 @@
-import { useSelector, useDispatch } from "react-redux";
-import { Todo, toggleTodo, removeTodo } from "../redux/modules/todoSlice";
+import { Todo, toggleTodo } from "../redux/modules/todoSlice";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { getTodos, deleteTodo } from "../api/todos";
 import styled from "styled-components";
 
 const Working: React.FC = () => {
-    const dispatch = useDispatch();
-    const todos = useSelector((state: { todos: Todo[] }) => state.todos);
-    const WorkingTodos = todos.filter(todo => !todo.completed);
+    const queryClient = useQueryClient();
+    const { data: todos, isLoading, error } = useQuery("todos", getTodos);
+    const deleteMutation = useMutation(deleteTodo, {
+        onSuccess: () => {
+            queryClient.invalidateQueries("todos");
+        },
+    });
+
+    if (isLoading) {
+        return <div>Loading ...</div>;
+    }
+    if (error) {
+        const err = error as Error;
+        return <div>{err.message}</div>;
+    }
+    const WorkingTodos = todos?.filter((todo: Todo) => !todo.completed);
 
     return (
         <Stcontainer>
             <Sth2>Working 🙋🏻‍♀️</Sth2>
             {WorkingTodos.length > 0 ? (
-                WorkingTodos.map(todo => (
+                WorkingTodos.map((todo: Todo) => (
                     <Stdiv key={todo.id}>
                         <div>
                             <Sttitle>제목 : {todo.title}</Sttitle>
                             <Stcontent>{todo.content}</Stcontent>
                             <Stbuttondiv>
-                            <Stbutton onClick={() => dispatch(removeTodo(todo.id))}>🗑️</Stbutton>
-                            <Stbutton onClick={() => dispatch(toggleTodo(todo.id))}>✔️</Stbutton>
+                            <Stbutton onClick={() => deleteMutation.mutate(todo.id)}>🗑️</Stbutton>
+                            <Stbutton onClick={() => toggleTodo(todo.id)}>✔️</Stbutton>
                             </Stbuttondiv>
                         </div>
                     </Stdiv>
