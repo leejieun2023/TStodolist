@@ -43,7 +43,7 @@ const Sth1 = styled.h1`
   align-items: center;
   justify-content: center;
   font-size: 35px;
-  color: #fdcac9;
+  color: #ffffff;
   text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 `;
 

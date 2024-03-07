@@ -14,10 +14,12 @@ const Working: React.FC = () => {
                 WorkingTodos.map(todo => (
                     <Stdiv key={todo.id}>
                         <div>
-                            <p>제목 : {todo.title}</p>
-                            <p>내용 : {todo.content}</p>
-                            <button onClick={() => dispatch(removeTodo(todo.id))}>🗑</button>
-                            <button onClick={() => dispatch(toggleTodo(todo.id))}>✔</button>
+                            <Sttitle>제목 : {todo.title}</Sttitle>
+                            <Stcontent>{todo.content}</Stcontent>
+                            <Stbuttondiv>
+                            <Stbutton onClick={() => dispatch(removeTodo(todo.id))}>🗑️</Stbutton>
+                            <Stbutton onClick={() => dispatch(toggleTodo(todo.id))}>✔️</Stbutton>
+                            </Stbuttondiv>
                         </div>
                     </Stdiv>
                 ))
@@ -33,13 +35,36 @@ const Stcontainer = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    margin: 20px;
 `;
 const Sth2 = styled.h2`
-    font-size: 40px;
+    font-size: 35px;
 `;
 const Stp = styled.p`
     font-weight: bold;
-    text-decoration: underline
+`;
+const Sttitle = styled.h3`
+    margin-left: 15px;
+    font-weight: bold;
+`;
+const Stcontent = styled.p`
+    margin-left: 20px;
+    font-size: 14px;
+`;
+const Stbutton = styled.button`
+    width: 50px;
+    font-size: 15px;
+    margin-right: 10px;
+    border: none;
+    cursor: pointer;
+    background-color: #e0f3f4;
+    box-shadow: 0px 0px 2px black;
+    border-radius: 50%;
+`;
+const Stbuttondiv = styled.div`
+    display: flex;
+    align-items: center;
+    margin-left: 225px;
 `;
 const Stdiv = styled.div`
     width: 550px;
@@ -47,8 +72,8 @@ const Stdiv = styled.div`
     border-radius: 15px;
     background-color: #f1f1f0;
     display: flex;
-    flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     box-shadow: 0px 0px 3px black;
     margin-bottom: 10px;
 `;
