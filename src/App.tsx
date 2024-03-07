@@ -6,8 +6,7 @@ import styled from "styled-components";
 
 const queryClient = new QueryClient();
 
-
-function App() {
+const App: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
         <Stbackground>
